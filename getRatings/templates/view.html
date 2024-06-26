@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      table {
+        position: absolute;
+        left: 50%;
+        top: 10%;
+        transform: translate(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <select name="appName" id="appName" onchange="view(this.value)">
+    </select>
+    <table border="" id="table"></table>
+    <script>
+        var table = document.getElementById('table')
+        var select = document.getElementById('appName')
+        const data = JSON.parse('{{ ratings|escapejs }}')
+        const names = data.map(item => item.appName)
+        const unique = new Set(names)
+        unique.forEach(item => {select.innerHTML += `<option>${item}</option>`})
+
+        function view(appName){
+        table.innerHTML = `<tr><th colspan="4">${appName}</th></tr> <tr> <th>S.no</th> <th>Name</th> <th>rate</th> <th>comment</th> </tr>`
+        var sno = 0
+        for (let i= 0;i<data.length;i++) {
+          appName==data[i].appName?table.innerHTML += `<tr><td>${++sno}</td><td>${data[i].name}</td><td>${data[i].rate}</td><td>${data[i].comments}</td></tr>`:null
+        }
+      }
+      </script>
+  </body>
+</html>
